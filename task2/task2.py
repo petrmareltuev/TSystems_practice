@@ -56,8 +56,6 @@ def create_barmaglot_file(s1, path, rus):
 
     if (rus == False):
         keyboard.send("alt+n")
-        keyboard.send("alt+shift")
-        keyboard.send("alt+n")
     else:
         try:
             keyboard.send("alt+и")
