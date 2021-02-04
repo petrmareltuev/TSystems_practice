@@ -1,6 +1,7 @@
 ### TSystems_practice
 Задание выполнено для ОС Windows для браузера Google Chrome версии 88.\
-В папке task1 находитсяфайл драйвера для Chrome - chromedriver.exe\
+Python 3.7.9\
+В папке task1 находится файл драйвера для Chrome - chromedriver.exe\
 Если используется другая версия браузера, [скачать](https://sites.google.com/a/chromium.org/chromedriver/downloads) нужную версию драйвера и заменить
 
 ### Скачивание репозитория
