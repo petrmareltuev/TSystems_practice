@@ -39,7 +39,7 @@ def create_barmaglot_file(quatrain1, path, is_russian):
     
     # go to filename input
     keyboard.send("tab")
-    time.sleep(1)
+    time.sleep(2)
     keyboard.send("esc")
     time.sleep(1)
     
@@ -51,6 +51,8 @@ def create_barmaglot_file(quatrain1, path, is_russian):
             time.sleep(1)
             keyboard.send("alt+b")
     else:
+        keyboard.send("alt+n")
+        keyboard.send("alt+shift")
         keyboard.send("alt+n")
         
     # input filename and save 
