@@ -17,7 +17,7 @@ def main():
 		return
 
 	try:
-		cities_temperatures = parse_cities_temp(cities_data)
+		cities_temperatures = parse_cities_temperatures(cities_data)
 		save_cities(cities_temperatures)
 	except WebDriverException as e:
 		print(f"Проблема драйвера Google Chrome.\n{str(e)}")
@@ -35,7 +35,7 @@ def get_temperature(driver, city, temperature_type):
 	temperature = int(temperature_element.text)
 	return temperature
 
-def parse_cities_temp(cities_data):
+def parse_cities_temperatures(cities_data):
 	driver = webdriver.Chrome(executable_path='chromedriver.exe')
 	driver.get("https://www.google.com/")
 	cities_temperatures = []
