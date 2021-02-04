@@ -4,18 +4,17 @@ import time
 import locale
 import ctypes
 
-def main(s1, s2):
+def main(quatrain1, quatrain2):
     rus = check_if_russian_locale()
     path = get_desktop_path()
     os.startfile("notepad.exe")
-
-    create_barmaglot_file(s1, path, rus)
-    create_new(s2)
+    create_barmaglot_file(quatrain1, path, rus)
+    create_new(quatrain2)
 
 def check_if_russian_locale():
     windll = ctypes.windll.kernel32
     lang = locale.windows_locale[ windll.GetUserDefaultUILanguage() ]
-    return (lang == 'ru_RU'):
+    return (lang == 'ru_RU')
 
 def get_desktop_path():
     path = f"{os.environ['USERPROFILE']}\\Desktop"
@@ -23,10 +22,10 @@ def get_desktop_path():
         path = f"{os.environ['USERPROFILE']}\\Рабочий стол"
     return path
 
-def create_barmaglot_file(s1, path, rus):
+def create_barmaglot_file(quatrain1, path, rus):
     # open save dialog
     time.sleep(2)
-    keyboard.write(s1)
+    keyboard.write(quatrain1)
     keyboard.send("ctrl+shift+s")
     
     # write desktop path
@@ -43,6 +42,7 @@ def create_barmaglot_file(s1, path, rus):
     time.sleep(1)
     keyboard.send("esc")
     time.sleep(1)
+    
     if rus:
         try:
             keyboard.send("alt+и")
@@ -62,21 +62,22 @@ def create_barmaglot_file(s1, path, rus):
     keyboard.send("enter")
     time.sleep(2)
 
-def create_new(s2):
-    keyboard.write(s2)
+def create_new(quatrain2):
+    keyboard.write(quatrain2)
     keyboard.send("ctrl+shift+s")
     keyboard.write("barmaglot_new_file.txt")
     keyboard.send("enter")
     keyboard.send("alt+f4")
 
 if __name__ == "__main__":
-    s1 = """    Варкалось. Хливкие шорьки
+    quatrain1 = """    Варкалось. Хливкие шорьки
     Пырялись по наве,
     И хрюкотали зелюки,
     Как мюмзики в мове."""
 
-    s2 = """\n    О, бойся Бармаглота, сын!
+    quatrain2 = """\n    О, бойся Бармаглота, сын!
     Он так свирлеп и дик!
     А в глу́ше ры́мит исполин —
     Злопастный Брандашмыг!"""
-    main(s1, s2)
+    
+    main(quatrain1, quatrain2)
