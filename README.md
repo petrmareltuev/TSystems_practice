@@ -8,7 +8,7 @@
 git clone https://github.com/petrmareltuev/TSystems_practice.git
 ```
 
-###Установка зависимостей
+### Установка зависимостей
 ```bash
 pip install -r Requirements.txt
 ```
