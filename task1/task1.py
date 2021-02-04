@@ -23,29 +23,32 @@ def main():
 		print(f"Проблема драйвера Google Chrome.\n{str(e)}")
 		return
 
-def get_temp(driver, city, temp_type):
-	search = driver.find_element_by_name("q")
-	search.clear()
-	search.send_keys(f"{city} temperature {temp_type}")
-	search.send_keys(Keys.ENTER)
-	element = WebDriverWait(driver, 10).until(
-		EC.presence_of_element_located((By.ID, "wob_tm")))
-	return int(element.text)
+def get_temperature(driver, city, temp_type):
+	search_element = driver.find_element_by_name("q")
+	search_element.clear()
+	search_query = f"{city} temperature {temp_type}"
+	search_element.send_keys(search_query)
+	search_element.send_keys(Keys.ENTER)
+	temperature_element = WebDriverWait(driver, 10).until(
+		EC.presence_of_element_located((By.ID, "wob_tm"))
+	)
+	temperature = int(temperature_element.text)
+	return temperature
 
 def parse_cities_temp(cities_data):
 	driver = webdriver.Chrome(executable_path='chromedriver.exe')
 	driver.get("https://www.google.com/")
-	cities_temp = []
+	cities_temperatures = []
 	for city in cities_data['City']:
-		tempC = get_temp(driver, city, "celsius")
-		tempF = get_temp(driver, city, "fahrenheit")
-		cities_temp.append([tempC, tempF])
+		tempC = get_temperature(driver, city, "celsius")
+		tempF = get_temperature(driver, city, "fahrenheit")
+		cities_temperatures.append([tempC, tempF])
 	driver.close()
-	return cities_temp
+	return cities_temperatures
 
 def save_cities(cities_temp):
-	dt = datetime.datetime.now().strftime("%d.%m.%Y_%H.%M")
-	new_file_name = f"cities_{dt}.xlsx"
+	current_time = datetime.datetime.now().strftime("%d.%m.%Y_%H.%M")
+	new_file_name = f"cities_{current_time}.xlsx"
 
 	wb = openpyxl.load_workbook('cities.xlsx')
 	sheet = wb[wb.sheetnames[0]]
