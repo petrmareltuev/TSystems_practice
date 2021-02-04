@@ -5,7 +5,7 @@ import locale
 import ctypes
 
 def main():
-    rus = is_russian_locale()
+    rus = check_if_russian_locale()
     path = get_desktop_path()
     os.startfile("notepad.exe")
 
@@ -22,15 +22,11 @@ def main():
     create_barmaglot_file(s1, path, rus)
     create_new(s2)
 
-def is_russian_locale():
+def check_if_russian_locale():
     windll = ctypes.windll.kernel32
     lang = locale.windows_locale[ windll.GetUserDefaultUILanguage() ]
 
-    if (lang == 'ru_RU'):
-        return True
-
-    else: 
-        return False
+    return (lang == 'ru_RU'):
 
 def get_desktop_path():
     path = f"{os.environ['USERPROFILE']}\\Desktop"
