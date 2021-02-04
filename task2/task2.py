@@ -5,11 +5,11 @@ import locale
 import ctypes
 
 def main(quatrain1, quatrain2):
-    rus = check_if_russian_locale()
+    is_russian = check_if_russian_locale()
     path = get_desktop_path()
     os.startfile("notepad.exe")
-    create_barmaglot_file(quatrain1, path, rus)
-    create_new(quatrain2)
+    create_barmaglot_file(quatrain1, path, is_russian)
+    create_new_barmaglot_file(quatrain2)
 
 def check_if_russian_locale():
     windll = ctypes.windll.kernel32
@@ -22,7 +22,7 @@ def get_desktop_path():
         path = f"{os.environ['USERPROFILE']}\\Рабочий стол"
     return path
 
-def create_barmaglot_file(quatrain1, path, rus):
+def create_barmaglot_file(quatrain1, path, is_russian):
     # open save dialog
     time.sleep(2)
     keyboard.write(quatrain1)
@@ -43,7 +43,7 @@ def create_barmaglot_file(quatrain1, path, rus):
     keyboard.send("esc")
     time.sleep(1)
     
-    if rus:
+    if is_russian:
         try:
             keyboard.send("alt+и")
         except ValueError:
@@ -62,7 +62,7 @@ def create_barmaglot_file(quatrain1, path, rus):
     keyboard.send("enter")
     time.sleep(2)
 
-def create_new(quatrain2):
+def create_new_barmaglot_file(quatrain2):
     keyboard.write(quatrain2)
     keyboard.send("ctrl+shift+s")
     keyboard.write("barmaglot_new_file.txt")
