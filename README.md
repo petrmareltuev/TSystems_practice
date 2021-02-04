@@ -4,26 +4,26 @@
 Если используется другая версия браузера, [скачать](https://sites.google.com/a/chromium.org/chromedriver/downloads) нужную версию драйвера и заменить
 
 ### Скачивание репозитория
-'''bash
+```bash
 git clone https://github.com/petrmareltuev/TSystems_practice.git
-'''
+```
 
 ###Установка зависимостей
-'''bash
+```bash
 pip install -r Requirements.txt
-'''
+```
 
 ### Запуск первого задания
-'''bash
+```bash
 cd task1
 python task1.py
-'''
+```
 
 В папке с заданием находится файл cities.xlsx c названием городов
 Результатом выполнения будет файл с температурой в этих городах cities_date_time.xlsx
 
 ### Запуск второго задания
-'''bash
+```bash
 cd task2
 python task2.py
-'''
+```
