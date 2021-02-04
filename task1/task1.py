@@ -1,19 +1,31 @@
 import pandas as pd
 import datetime
 import openpyxl
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.keys import Keys 
+from selenium.common.exceptions import WebDriverException
 
-# get cities list from excel file
-cities_data = pd.read_excel('cities.xlsx', index_col=None, header=0)  
+def main():
+	# get cities list from excel file
+	try:	
+		cities_data = pd.read_excel('cities.xlsx', index_col=None, header=0) 
+	except FileNotFoundError:
+		print("Файл cities.xlsx не найден")
+		return
 
-# using google search
-driver = webdriver.Chrome(executable_path='chromedriver.exe')
-url = "https://www.google.com/"
-driver.get(url)
+	try:
+		# get cities temperature using chrome
+		cities_temp = parse_cities_temp(cities_data)
+
+		# save cities temperature in new file 
+		save_cities(cities_temp)
+
+	except WebDriverException as e:
+		print(f"Драйвер для Google Chrome не найден.\n{str(e)}")
 
 def get_temp(driver, city, temp_type):
 	search = driver.find_element_by_name("q")
@@ -23,22 +35,30 @@ def get_temp(driver, city, temp_type):
 	element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "wob_tm")))
 	return int(element.text)
 
-cities_temp = []
-for city in cities_data['City']:
-	tempC = get_temp(driver, city, "celsius")
-	tempF = get_temp(driver, city, "fahrenheit")
-	cities_temp.append([tempC, tempF])
-driver.close()
+def parse_cities_temp(cities_data):
+	driver = webdriver.Chrome(executable_path='chromedriver.exe')
+	driver.get("https://www.google.com/")
+	cities_temp = []
+	for city in cities_data['City']:
+		tempC = get_temp(driver, city, "celsius")
+		tempF = get_temp(driver, city, "fahrenheit")
+		cities_temp.append([tempC, tempF])
+	driver.close()
+	return cities_temp
 
-dt = datetime.datetime.now().strftime("%d.%m.%Y_%H.%M")
-new_file_name = f"cities_{dt}.xlsx"
+def save_cities(cities_temp):
+	dt = datetime.datetime.now().strftime("%d.%m.%Y_%H.%M")
+	new_file_name = f"cities_{dt}.xlsx"
 
-wb = openpyxl.load_workbook('cities.xlsx')
-sheet = wb[wb.sheetnames[0]]
+	wb = openpyxl.load_workbook('cities.xlsx')
+	sheet = wb[wb.sheetnames[0]]
 
-for id, [tempC, tempF] in enumerate(cities_temp, start = 2):
-	sheet[f"B{id}"] = tempC
-	sheet[f"C{id}"] = tempF
+	for id, [tempC, tempF] in enumerate(cities_temp, start = 2):
+		sheet[f"B{id}"] = tempC
+		sheet[f"C{id}"] = tempF
 
-print(new_file_name)
-wb.save(new_file_name)
+	print(new_file_name)
+	wb.save(new_file_name)
+
+if __name__ == "__main__":
+	main()
