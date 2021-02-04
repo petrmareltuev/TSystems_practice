@@ -10,7 +10,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
 
 def main():
-	# get cities list from excel file
 	try:	
 		cities_data = pd.read_excel('cities.xlsx', index_col=None, header=0) 
 	except FileNotFoundError:
@@ -18,21 +17,19 @@ def main():
 		return
 
 	try:
-		# get cities temperature using chrome
 		cities_temp = parse_cities_temp(cities_data)
-
-		# save cities temperature in new file 
 		save_cities(cities_temp)
-
 	except WebDriverException as e:
-		print(f"Драйвер для Google Chrome не найден.\n{str(e)}")
+		print(f"Проблема драйвера Google Chrome.\n{str(e)}")
+		return
 
 def get_temp(driver, city, temp_type):
 	search = driver.find_element_by_name("q")
 	search.clear()
 	search.send_keys(f"{city} temperature {temp_type}")
 	search.send_keys(Keys.ENTER)
-	element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "wob_tm")))
+	element = WebDriverWait(driver, 10).until(
+		EC.presence_of_element_located((By.ID, "wob_tm")))
 	return int(element.text)
 
 def parse_cities_temp(cities_data):
