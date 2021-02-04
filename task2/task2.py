@@ -21,10 +21,10 @@ keyboard.write("barmaglot_file.txt")
 keyboard.send("f4")
 
 for i in range(40): 
-	keyboard.send("backspace")
-
+  keyboard.send("backspace")
 keyboard.write("Desktop")
 keyboard.send("enter")
+
 keyboard.send("enter")
 keyboard.send("enter")
 keyboard.send("enter")
